@@ -116,6 +116,9 @@ The core script calls these functions without knowing or caring about the underl
 ## Monitoring
 
 ```bash
+# Live status (temperatures, fan RPMs, last action, timer state)
+fan-status
+
 # Live log
 tail -f /var/log/fan-control.log
 
@@ -197,6 +200,7 @@ ipmi-service/
 ├── fan-control.service       # systemd service
 ├── fan-control.timer         # systemd timer
 ├── setup.sh                  # installer / uninstaller
+├── status.sh                 # live status display
 └── README.md
 ```
 
@@ -204,6 +208,7 @@ After install:
 
 ```
 /usr/local/bin/fan-control.sh
+/usr/local/bin/fan-status
 /etc/fan-control.conf
 /etc/fan-control.d/profiles/
 /etc/systemd/system/fan-control.service

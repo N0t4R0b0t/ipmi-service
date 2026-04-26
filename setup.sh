@@ -24,6 +24,7 @@ error()   { echo -e "${RED}[ERROR]${NC} $1"; exit 1; }
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 INSTALL_SCRIPT="/usr/local/bin/fan-control.sh"
+INSTALL_STATUS="/usr/local/bin/fan-status"
 INSTALL_CONFIG="/etc/fan-control.conf"
 INSTALL_PROFILES_DIR="/etc/fan-control.d/profiles"
 INSTALL_SERVICE="/etc/systemd/system/fan-control.service"
@@ -39,7 +40,7 @@ if [[ "${1:-}" == "--uninstall" ]]; then
     systemctl stop fan-control.service 2>/dev/null || true
     systemctl disable fan-control.service 2>/dev/null || true
 
-    rm -f "$INSTALL_SCRIPT" "$INSTALL_SERVICE" "$INSTALL_TIMER"
+    rm -f "$INSTALL_SCRIPT" "$INSTALL_STATUS" "$INSTALL_SERVICE" "$INSTALL_TIMER"
 
     if command -v ipmitool &>/dev/null && [ -e /dev/ipmi0 ]; then
         # Source the active profile to restore auto control properly
@@ -171,6 +172,10 @@ cp "$SCRIPT_DIR/fan-control.sh" "$INSTALL_SCRIPT"
 chmod +x "$INSTALL_SCRIPT"
 success "Script installed to $INSTALL_SCRIPT."
 
+cp "$SCRIPT_DIR/status.sh" "$INSTALL_STATUS"
+chmod +x "$INSTALL_STATUS"
+success "Status script installed to $INSTALL_STATUS."
+
 # --- Install systemd units ----------------------------------------------------
 
 # shellcheck source=/dev/null
@@ -211,11 +216,13 @@ echo "  Profile:     ${SELECTED_PROFILE}"
 echo "  Config:      $INSTALL_CONFIG"
 echo "  Profiles:    $INSTALL_PROFILES_DIR"
 echo "  Script:      $INSTALL_SCRIPT"
+echo "  Status:      $INSTALL_STATUS"
 echo "  Log:         ${LOGFILE:-/var/log/fan-control.log}"
 echo "  Poll every:  ${POLL_INTERVAL:-2min} (first run after ${BOOT_DELAY:-30s} on boot)"
 echo ""
 echo "  Useful commands:"
-echo "    systemctl status fan-control.timer"
+echo "    fan-status
+    systemctl status fan-control.timer"
 echo "    systemctl list-timers fan-control.timer"
 echo "    journalctl -u fan-control.service -f"
 echo "    tail -f ${LOGFILE:-/var/log/fan-control.log}"
