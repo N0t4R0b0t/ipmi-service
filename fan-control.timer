@@ -1,0 +1,11 @@
+[Unit]
+Description=IPMI Fan Control — periodic temperature check
+Requires=fan-control.service
+
+[Timer]
+OnBootSec=__BOOT_DELAY__
+OnUnitActiveSec=__POLL_INTERVAL__
+Unit=fan-control.service
+
+[Install]
+WantedBy=timers.target

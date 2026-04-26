@@ -1,0 +1,14 @@
+[Unit]
+Description=IPMI Fan Speed Controller
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStartPre=/sbin/modprobe ipmi_devintf
+ExecStartPre=/sbin/modprobe ipmi_si
+ExecStart=/usr/local/bin/fan-control.sh
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
