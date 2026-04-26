@@ -110,7 +110,7 @@ fi
 if grep -q "Status: UNTESTED" "$PROFILE_FILE" 2>/dev/null; then
     echo ""
     warn "Profile '${SELECTED_PROFILE}' is UNTESTED. Use at your own risk."
-    warn "Please report your results at: https://github.com/YOUR_USERNAME/ipmi-fan-control/issues"
+    warn "Please report your results at: https://github.com/N0t4R0b0t/ipmi-service/issues"
     read -rp "Continue anyway? [y/N]: " confirm
     [[ "${confirm,,}" != "y" ]] && error "Aborted."
 fi

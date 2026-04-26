@@ -25,17 +25,18 @@ source "$CONFIG_FILE"
 # --- Logging ------------------------------------------------------------------
 
 log() {
-    local msg="$(date '+%Y-%m-%d %H:%M:%S') $1"
-    echo "$msg" >> "$LOGFILE"
+    local msg
+    msg="$(date '+%Y-%m-%d %H:%M:%S') $1"
 
     if [ -f "$LOGFILE" ]; then
         local size_kb
         size_kb=$(du -k "$LOGFILE" | cut -f1)
         if [ "$size_kb" -ge "${LOG_MAX_KB:-1024}" ]; then
             mv "$LOGFILE" "${LOGFILE}.1"
-            echo "$(date '+%Y-%m-%d %H:%M:%S') Log rotated." > "$LOGFILE"
         fi
     fi
+
+    echo "$msg" >> "$LOGFILE"
 }
 
 # --- Helpers ------------------------------------------------------------------

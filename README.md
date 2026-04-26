@@ -31,8 +31,8 @@ Vendor-specific raw IPMI commands are isolated into **profiles**, keeping the co
 ## Quick Start
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ipmi-fan-control.git
-cd ipmi-fan-control
+git clone https://github.com/N0t4R0b0t/ipmi-service.git
+cd ipmi-service
 sudo bash setup.sh
 ```
 
@@ -186,7 +186,7 @@ Then set `PROFILE=<vendor>` in `/etc/fan-control.conf`. If it works, please open
 ## File Layout
 
 ```
-ipmi-fan-control/
+ipmi-service/
 ├── profiles/
 │   ├── dell-idrac6.conf
 │   ├── dell-idrac7.conf      ← tested
